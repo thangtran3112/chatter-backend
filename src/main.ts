@@ -13,6 +13,7 @@ async function bootstrap() {
   //registering a Nest Middleware, running before the request is sent to actual endpoint
   //in this case, we want to parse our cookie, and attach to request, before sending to actual route
   app.use(cookieParser());
+  app.enableCors();
   const configService = app.get(ConfigService);
   await app.listen(configService.getOrThrow('PORT'));
 }
