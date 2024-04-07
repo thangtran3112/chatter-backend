@@ -62,3 +62,46 @@ https://www.mongodb.com/docs/compass/current/query/filter/?utm_source=compass&ut
 
 `npm i --save class-validator class-transformer`
 [ValidationPipe](https://docs.nestjs.com/techniques/validation)
+
+## AWS Beanstalk
+
+- [Using self-signed SSL certificate (not recommended in production environment)](https://www.udemy.com/course/build-a-real-time-chat-app-with-react-nestjs-graphql/learn/lecture/41850348#overview)
+
+```
+openssl version
+openssl genrsa 2048 > privatekey.pem
+stat privatekey.pem
+```
+
+`openssl req -new -key privatekey.pem -out csr.pem`
+
+```
+Country Name (2 letter code) [AU]:US
+State or Province Name (full name) [Some-State]:Washington
+Locality Name (eg, city) []:Seattle
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Example Corporation
+Organizational Unit Name (eg, section) []:Marketing
+Common Name (e.g. server FQDN or YOUR name) []:prod.eba-cnqkbmvr.us-west-2.elasticbeanstalk.com
+Email Address []:thangtran3112@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:sometestpassword
+An optional company name []:
+```
+
+`openssl x509 -req -days 365 -in csr.pem -signkey privatekey.pem -out public.crt`
+
+- Upload public.crt to AWS Beanstalk with [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+  `brew install awscli`
+  `aws --version`
+  `aws configure`
+
+```
+AWS Access Key ID [None]: ************************
+AWS Secret Access Key [None]: *************************************
+Default region name [None]: us-west-2
+Default output format [None]:
+```
+
+`aws iam upload-server-certificate --server-certificate-name elastic-beanstalk-x509 --certificate-body file://public.crt --private-key file://privatekey.pem`
