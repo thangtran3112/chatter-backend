@@ -11,7 +11,9 @@ export class S3Service {
     const accessKey = this.configService.get('AWS_ACCESS_KEY');
     const secretAccessKey = configService.get('AWS_SECRET_ACCESS_KEY');
 
-    const clientConfig: S3ClientConfig = {};
+    const clientConfig: S3ClientConfig = {
+      region: this.configService.getOrThrow('AWS_REGION'),
+    };
 
     //we only have those two credentials in local development
     //if we do AWS CLI `configure` with default profile, we don't need these configs
@@ -20,7 +22,6 @@ export class S3Service {
         accessKeyId: accessKey,
         secretAccessKey,
       };
-      clientConfig.region = 'us-west-2';
     }
 
     this.client = new S3Client(clientConfig);
