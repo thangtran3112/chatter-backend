@@ -32,7 +32,10 @@ import { AuthService } from './auth/auth.service';
             onConnect: (context: any) => {
               try {
                 const incomingRequest = context.extra.request;
-                const user = authService.verifyWs(incomingRequest);
+                const user = authService.verifyWs(
+                  incomingRequest,
+                  context.connectionParams,
+                );
                 context.user = user;
               } catch (err) {
                 new Logger().error(err);
