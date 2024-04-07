@@ -36,11 +36,6 @@ https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 - Understand NestJS GraphQL:
   https://docs.nestjs.com/graphql/quick-start
 
-### Create users resource graphql boilterplate codes
-
-`nest g resource users`
-`nest g resource chats/messages`
-
 ### Running MongoDB Compass to view the MongoDB
 
 https://www.mongodb.com/try/download/compass
@@ -63,7 +58,7 @@ https://www.mongodb.com/docs/compass/current/query/filter/?utm_source=compass&ut
 `npm i --save class-validator class-transformer`
 [ValidationPipe](https://docs.nestjs.com/techniques/validation)
 
-## AWS Beanstalk
+## AWS Backend deployment with self-signed SSL certificate
 
 - [Using self-signed SSL certificate (not recommended in production environment)](https://www.udemy.com/course/build-a-real-time-chat-app-with-react-nestjs-graphql/learn/lecture/41850348#overview)
 
@@ -105,3 +100,12 @@ Default output format [None]:
 ```
 
 `aws iam upload-server-certificate --server-certificate-name elastic-beanstalk-x509 --certificate-body file://public.crt --private-key file://privatekey.pem`
+
+## Enable CORS on NESTJS backend
+
+- Enable CORS in `main.ts` through `app.enableCors();`
+- Enable CORS for GraphQLModule inside `app.module.ts` through `cors: true`
+
+## Backend Setting Cookie issue
+
+- By default, AWS does not allow setting cookie with different CORS origin

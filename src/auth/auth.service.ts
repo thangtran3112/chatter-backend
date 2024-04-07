@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { TokenPayload } from './token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { getJwt } from './jwt';
 
 export const COOKIE_AUTHENTICATION = 'Authentication';
 
@@ -31,17 +32,20 @@ export class AuthService {
       httpOnly: true,
       expires,
     });
+
+    //Because AWS does not allow setting Cookie directly for different CORS domain
+    return token;
   }
 
-  verifyWs(request: Request): TokenPayload {
-    const cookies: string[] = request.headers.cookie.split('; ');
+  verifyWs(request: Request, connectionParams: any = {}): TokenPayload {
+    const cookies: string[] = request.headers.cookie?.split('; ');
 
     // Authentication=ey...
-    const authCookie = cookies.find((cookie) =>
+    const authCookie = cookies?.find((cookie) =>
       cookie.includes(COOKIE_AUTHENTICATION),
     );
-    const jwt = authCookie.split(`${COOKIE_AUTHENTICATION}=`)[1];
-    return this.jwtService.verify(jwt);
+    const jwt = authCookie?.split(`${COOKIE_AUTHENTICATION}=`)[1];
+    return this.jwtService.verify(jwt || getJwt(connectionParams.token));
   }
 
   //simply clear the existing cookies on logout
