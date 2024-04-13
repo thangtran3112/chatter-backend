@@ -1,15 +1,20 @@
-## Install nest config and Mongo DB connection:
+## Chatter backend with Apollo PubSub, is not intended for production
+
+- For Production solution, such as Redis, please see the [list event-publishing system](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#production-pubsub-libraries)
+- In this solution, we are using [Redis PubSub](https://github.com/davidyaha/graphql-redis-subscriptions) for AWS Production server
+- On Local server, we are still using the normal GraphQL PubSub comes with NESTJS. See `pubsub.module.ts`
+- By default, Javascript objects are serialized using the JSON.stringify and JSON.parse methods. This means that not all objects - such as Date or Regexp objects - will deserialize correctly without a custom reviver, that work out of the box with the default in-memory implementation. In our case, ObjectId, Date in `MessageDocument` will need a custom reviver.
+- Notes: The data we receive from Redis PubSub will need to be deserialized to JSON format in `message.service.ts`, before the resolvers can handle it. For this we are using [custom-reviver](https://github.com/davidyaha/graphql-redis-subscriptions?tab=readme-ov-file#using-a-custom-reviver)
+
+## Install nest config and Mongo DB connection
 
 NodeJS v20X
 `npm i @nestjs/config @nestjs/mongoose mongoose`
-
-### Schema validation:
-
 `npm i joi`
 
 ### Installing local Mongo DB
 
-https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
+<https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/>
 
 `brew tap mongodb/brew`
 `brew update`
@@ -17,7 +22,7 @@ https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 
 ### Using Mongo DB
 
-- kill MongoDB process: https://stackoverflow.com/questions/11774887/how-to-stop-mongo-db-in-one-command
+- kill MongoDB process: <https://stackoverflow.com/questions/11774887/how-to-stop-mongo-db-in-one-command>
   `mkdir -p ~/data/db`
   `chmod 777 ~/data/db`
   `mongod --dbpath ~/data/db`
@@ -34,12 +39,12 @@ https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/
 - Installing: `npm i @nestjs/graphql @nestjs/apollo @apollo/server graphql`
 - Playground GraphQL server, after starting backend: `http://localhost:3001/graphql`
 - Understand NestJS GraphQL:
-  https://docs.nestjs.com/graphql/quick-start
+  <https://docs.nestjs.com/graphql/quick-start>
 
 ### Running MongoDB Compass to view the MongoDB
 
-https://www.mongodb.com/try/download/compass
-https://www.mongodb.com/docs/compass/current/query/filter/?utm_source=compass&utm_medium=product
+<https://www.mongodb.com/try/download/compass>
+<https://www.mongodb.com/docs/compass/current/query/filter/?utm_source=compass&utm_medium=product>
 
 ### Using `migrate-mongo` package to manage DB migration
 
