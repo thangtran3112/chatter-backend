@@ -14,6 +14,7 @@ async function bootstrap() {
   //in this case, we want to parse our cookie, and attach to request, before sending to actual route
   app.use(cookieParser());
   app.enableCors();
+  app.setGlobalPrefix('/api'); //due to Cloudfront /api redirection
   const configService = app.get(ConfigService);
   await app.listen(configService.getOrThrow('PORT'));
 }
