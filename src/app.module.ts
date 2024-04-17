@@ -27,8 +27,10 @@ import { AuthService } from './auth/auth.service';
       useFactory: (authService: AuthService) => ({
         autoSchemaFile: 'src/schema.gql',
         cors: true,
+        path: '/api/graphql',
         subscriptions: {
           'graphql-ws': {
+            path: '/api/graphql',
             onConnect: (context: any) => {
               try {
                 const incomingRequest = context.extra.request;
