@@ -34,6 +34,7 @@ export class AuthService {
     });
 
     //Because AWS does not allow setting Cookie directly for different CORS domain
+    //However, if we are using Cloudfront, we do not need to enable CORS, and we can set Cookies
     return token;
   }
 
