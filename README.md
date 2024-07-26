@@ -1,8 +1,8 @@
-## Chatter backend with Apollo PubSub, is not intended for production
+## Chatter backend with Apollo PubSub and Redis PubSub
 
-- For Production solution, such as Redis, please see the [list event-publishing system](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#production-pubsub-libraries)
+- For Production solution, i used Redis, please see the [list event-publishing system](https://www.apollographql.com/docs/apollo-server/data/subscriptions/#production-pubsub-libraries)
 - In this solution, we are using [Redis PubSub](https://github.com/davidyaha/graphql-redis-subscriptions) for AWS Production server
-- On Local server, we are still using the normal GraphQL PubSub comes with NESTJS. See `pubsub.module.ts`
+- On Local server, we are still using the normal Apollo PubSub comes with NESTJS. See `pubsub.module.ts`
 - By default, Javascript objects are serialized using the JSON.stringify and JSON.parse methods. This means that not all objects - such as Date or Regexp objects - will deserialize correctly without a custom reviver, that work out of the box with the default in-memory implementation. In our case, ObjectId, Date in `MessageDocument` will need a custom reviver.
 - Notes: The data we receive from Redis PubSub will need to be deserialized to JSON format in `message.service.ts`, before the resolvers can handle it. For this we are using [custom-reviver](https://github.com/davidyaha/graphql-redis-subscriptions?tab=readme-ov-file#using-a-custom-reviver)
 
